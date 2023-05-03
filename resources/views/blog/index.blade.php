@@ -1,5 +1,5 @@
-@extends('master')
-@section('main')
+<!-- @extends('master')
+@section('main') -->
 @extends('layouts.app')
 
 @section('content')
@@ -45,17 +45,18 @@
                 </tbody>
             </table>
 
-    <!-- <form action="" method="post">
+    <form action="" method="post">
                 @csrf
                     @method('DELETE')
                     
                     <button type="submit" class="btn btn-primary">Submit</button>
                     
-                    </form> -->
+                    </form>
 </div>
 </div>
     </div>
-@endsection
+    
+<!-- @endsection -->
 <script src="//code.jquery.com/jquery-1.12.3.js"></script>
 <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script
@@ -69,5 +70,19 @@
     $('#table').DataTable();
 } );
  </script>
+ <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+       
+
+
+       <script>
+               $(document).ready(function() {
+                   // Select2 Multiple
+                   $('.select2-multiple').select2({
+                       allowClear: true
+                   });
+       
+               });
+       
+           </script> -->
 @endsection
 

@@ -1,8 +1,6 @@
+
 @extends('master')
 @section('main')
-@extends('layouts.app')
-
-@section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-1 offset-lg-11 margin-tb pull-right">

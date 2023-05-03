@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\StudentController;
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
@@ -8,6 +10,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EmployeeController;
 use App\Models\Employees;
+use  App\Http\Controllers\OtpController;
 // use App\Http\Controllers\Admin\AuthenticatedSessionController;
 
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
@@ -34,8 +37,19 @@ Route::resource('categories', CategoryController::class);
 Route::resource('tags',TagController::class);
 Route::resource('authors',AuthorController::class);
 Route::resource('blogs',BlogController::class);
-Route::resource('employees',EmployeeController::class,);
+
+Route::post('/fetchsubcategory/{id}', [BlogController::class, 'fetchsubcategory']);
+// Route::get('blogs/create', [BlogController::class, 'create']);
+// Route::post('blogs/store', [BlogController::class, 'store']);
+Route::get('students',[StudentController::class,'index'])->name('students.index');
+
+Route::get('students/create',[StudentController::class,'create'])->name('students.create');
+Route::post('students',[StudentController::class,'store'])->name('students.store');
+
+// Route::resource('students',StudentController::class);
+Route::resource('employees',EmployeeController::class);
 // Route::get('employees', [EmployeeController::class, 'index']);
+
 // Route::get('employees/list', [EmployeeController::class, 'getEmployees'])->name('employees.list');
 
 // Route::get('employees',[EmployeeController::class,'index']);
@@ -43,17 +57,7 @@ Route::resource('employees',EmployeeController::class,);
 // Route::get('employees/{employee}',[EmployeeController::class,'show']);
 
 //admin route
-// Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
-//     Route::get('/login', [AuthenticatedSessionController::class, 'getLogin'])->name('adminLogin');
-//     Route::post('/login', [AuthenticatedSessionController::class, 'postLogin'])->name('adminLoginPost');
-//     // 'prefix' => 'admin',
-//     Route::group(['middleware' => 'adminauth'], function () {
-//         Route::get('/', function () {
-//             return view('welcome');
-//         })->name('adminDashboard');
 
-//     });
-// });
 Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
     Route::namespace('Auth')->group(function(){
         // Route::get('register',[AuthenticatedSessionController::class, 'getLogin'])->name('login');
@@ -71,12 +75,22 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
     Route::get('logout',[AuthenticatedSessionController::class, 'adminLogout'])->name('logout');
 });
 
+// Route::Controller([OtpController::class])->group(function(){
+    Route::get('/otp/login',[OtpController::class,'login'])->name('otp.login');
+// }); 
+   Route::post('/otp/generate',[OtpController::class,'generate'])->name('otp.generate');
+   Route::get('/otp/verification/{user_id}', [OtpController::class,'verification'])->name('otp.verification');
+   Route::post('/otp/login', [OtpController::class,'loginWithOtp'])->name('otp.getlogin');
 
 
 
 
 
+//    Route::namespace('Auth')->group(function(){
+//             Route::get('/register/generate',[RegisterController::class,'generate'])->name('register.generate');
 
+//    });
+  
 // Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
 //     Route::namespace('Auth')->middleware('guest:admin')->group(function(){
 //         // login route
@@ -94,3 +108,4 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
 //     });
 //     Route::post('logout','Auth\AuthenticatedSessionController@destroy')->name('logout');
 // });
+

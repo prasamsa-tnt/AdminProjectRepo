@@ -6,12 +6,15 @@ use App\Models\Blog;
 use App\Models\User;
 use App\Models\Tag;
 use App\Models\Category;
+use App\Models\Subcategory;
 
 use Session;
 use Illuminate\Http\Request;
 
 use App\Services\BlogService;
 use App\Http\Requests\BlogRequest;
+
+
 class BlogController extends Controller
 {
     // public function __construct()
@@ -19,13 +22,12 @@ class BlogController extends Controller
     //     $this->middleware('auth');
     // }
     public function __construct(BlogService $blogService){
-        $this->BlogService = $blogService;
+        $this->blogService = $blogService;
     }
     public function index(Request $request)
     { 
-        // dd('hello');
         $tags = Tag::all();
-        $blogs = Blog::with('category')->with('tags')->with('author')->get();
+        $blogs = Blog::with('category')->with('author')->get();
         return view('blog.index', compact('blogs','tags'));
   
     }
@@ -33,24 +35,46 @@ class BlogController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        
+
         $tags = Tag::all();
         $categories = Category::all();
-        // return response()->json([
+        $subcategories=Subcategory::all();
+        // $subcategories =  Subcategory::select('name','id')->where('category_id',$request->category_id)->get();
 
-        // ]);
-       return view('blog.create')->with('tags', $tags)->with('categories', $categories);
+        // $subcategories =  Category::where("category_id",$request->category_id)->with('subcategories')->get();
+        // dd($subcategories);
+        
+       return view('blog.create')->with('tags', $tags)->with('categories', $categories)->with('subcategories',$subcategories);
+    }
+    public function fetchsubcategory($category_id = null){
+        $subcategories =  Subcategory::where('category_id',$category_id)->get();
+        // dd($subcategories);
+        $response=[
+            'status'=>1,
+            'subcategories'=>$subcategories
+        ];
+        return response()->json($response);
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // public function getSubcategory(Request $request) {
+    //     if ($request->categoryId) {
+    //         $subcategories = Subcategory::where('category_id', $request->categoryId)->get();
+    //         if ($subcategories) {
+    //             return response()->json(['status' => 'success', 'data' => $subcategories], 200);
+    //         }
+    //         return response()->json(['status' => 'failed', 'message' => 'No subcategories$subcategories found'], 404);
+    //     }
+    //     return response()->json(['status' => 'failed', 'message' => 'Please select category'], 500);
+    // }
     public function store(BlogRequest $request)
     {
         try{
           
-            $this->BlogService->saveBlog($request);
+            $this->blogService->saveBlog($request);
             $redirect=redirect()->route("blogs.index");
             return $redirect->with(['success'=>"blog added",]); 
         }

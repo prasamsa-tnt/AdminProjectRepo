@@ -15,7 +15,7 @@ class EmployeeController extends Controller
     public function index()
     {
         // $employees=Employee::all();
-         // return view('employees.index',compact('employees'));
+        //  return view('employees.index',compact('employees'));
 
         return response()->json([
                 'employees'=>Employee::get()
@@ -49,7 +49,6 @@ class EmployeeController extends Controller
         $employee->job=$request->job;
         $employee->address=$request->address;
         $employee->save();
-        // dd($employee);
         return response()->json(
             [
                 'message'=>'created',
@@ -58,20 +57,20 @@ class EmployeeController extends Controller
             ],200
             );
     }
-    // public function getEmployees(Request $request)
-    // {
-    //     if ($request->ajax()) {
-    //         $data = Employee::latest()->get();
-    //         return Datatables::of($data)
-    //             ->addIndexColumn()
-    //             ->addColumn('action', function($row){
-    //                 $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
-    //                 return $actionBtn;
-    //             })
-    //             ->rawColumns(['action'])
-    //             ->make(true);
-    //     }
-    // }
+    public function getEmployees(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Employee::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+    }
     
     public function show(Employee $employee)
     {

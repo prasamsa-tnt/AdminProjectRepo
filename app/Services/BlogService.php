@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\BlogTag;
+use Illuminate\Support\Facades\Auth;
 
 // use App\Services\blogService;
 // use Illuminate\Http\Request;
@@ -17,28 +18,30 @@ class BlogService{
 
     }
    
-    public function saveBlog($request){
-     
-        $user = auth()->user();
-// dd($user);
-$authorId = auth()->user()->id;
-// dd($authorId);
-    // $authorId=Session::get('loginId');
-    // dd($authorId);
-    $postData=[
-        'name'=>$request->get('name'),
-        'category_id'=>$request->get('category_id'),
-        'author_id'=>$authorId,
-    ];
-    // Blog::create($postData);
-    $tags= $request->post('tags');
-    // dd($tags);
-    // $blog=
-    Blog::create($postData);
-    // foreach( $tags as $tag)
-    // {
-    //    $blog->tags()->attach($tag);
-    // }
-}
+    public function saveBlog($request)
+    {
+        // Get the currently authenticated user...
+        $user = Auth::user();
+ 
+        // Get the currently authenticated user's ID...
+        $authorId = Auth::id();
+        // dd($user);
+        //    $user = auth()->user();
+        // $authorId = auth()->user()->id;
+        
+        $postData=[
+            'name'=>$request->get('name'),
+            'category_id'=>$request->get('category_id'),
+            'author_id'=>$authorId,
+        ];
+        $tags= $request->post('tags');
+        $blog=Blog::create($postData);
+        return $blog;
+
+        // foreach( $tags as $tag)
+        // {
+        //    $blog->tags()->attach($tag);
+        // }
+    }
 
 }

@@ -1,6 +1,27 @@
 <x-laravel-ui-adminlte::adminlte-layout>
 
     <body class="hold-transition register-page">
+    <!-- // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyA-I-CPNyio9KXzbBx-20PNQbFTeb0Zm_g",
+  authDomain: "adminproject-6bfe1.firebaseapp.com",
+  projectId: "adminproject-6bfe1",
+  storageBucket: "adminproject-6bfe1.appspot.com",
+  messagingSenderId: "824861024134",
+  appId: "1:824861024134:web:5cb5c56877e4b25069d607",
+  measurementId: "G-82QFN3RNRZ"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app); -->
         <div class="register-box">
             <div class="register-logo">
                 <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
@@ -41,6 +62,19 @@
                         </div>
 
                         <div class="input-group mb-3">
+                            <input type="text" name="mobile_no" value="{{ old('mobile_no') }}"
+                                class="form-control @error('mobile_no') is-invalid @enderror" placeholder="Mobile_no">
+                            <div class="input-group-append">
+                                <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+                            </div>
+                            @error('mobile_no')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="input-group mb-3">
                             <input type="password" name="password"
                                 class="form-control @error('password') is-invalid @enderror" placeholder="Password">
                             <div class="input-group-append">
@@ -72,12 +106,12 @@
                             </div>
                             <!-- /.col -->
                             <div class="col-4">
+
                                 <button type="submit" class="btn btn-primary btn-block">Register</button>
                             </div>
                             <!-- /.col -->
                         </div>
                     </form>
-
                     <a href="{{ route('login') }}" class="text-center">I already have a membership</a>
                 </div>
                 <!-- /.form-box -->
@@ -86,5 +120,43 @@
             <!-- /.form-box -->
         </div>
         <!-- /.register-box -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.20.0/firebase-app.js" integrity="sha512-HDedlhS7AiEw+AtEN7ISCTiRdJgUA+OBvyuFztVZxMzksmM/TlPOI7CtbGA9wRP0LybEYPKUzEWZaiZl629UGw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+                const firebaseConfig = {
+                    apiKey: "AIzaSyA-I-CPNyio9KXzbBx-20PNQbFTeb0Zm_g",
+                    authDomain: "adminproject-6bfe1.firebaseapp.com",
+                    projectId: "adminproject-6bfe1",
+                    storageBucket: "adminproject-6bfe1.appspot.com",
+                    messagingSenderId: "824861024134",
+                    appId: "1:824861024134:web:5cb5c56877e4b25069d607",
+                    measurementId: "G-82QFN3RNRZ"
+                };
+                firebase.initializeApp(firebaseConfig);
+    </script>
+    
+    <!-- <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyA-I-CPNyio9KXzbBx-20PNQbFTeb0Zm_g",
+    authDomain: "adminproject-6bfe1.firebaseapp.com",
+    projectId: "adminproject-6bfe1",
+    storageBucket: "adminproject-6bfe1.appspot.com",
+    messagingSenderId: "824861024134",
+    appId: "1:824861024134:web:5cb5c56877e4b25069d607",
+    measurementId: "G-82QFN3RNRZ"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script> -->
+
     </body>
 </x-laravel-ui-adminlte::adminlte-layout>

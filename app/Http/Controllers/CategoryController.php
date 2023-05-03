@@ -3,23 +3,32 @@
 namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
+// namespace App\Http\Controllers\API\ApiCategoryController;
 
+use App\Services\CategoryService;
+use App\Http\Requests\CategoryRequest;
 class CategoryController extends Controller
 {
     // public function __construct()
     // {
     //     $this->middleware('auth');
     // }
+
     public function index()
     { 
         // dd('hello');
         $categories=Category::all();
         return view('categories.index',compact('categories'));
+
+        // return response()->json($categories,200);
     }
 
     /**
      * Show the form for creating a new resource.
-     */
+     */    
+    public function __construct(CategoryService $categoryService){
+        $this->categoryService = $categoryService;
+    }
     public function create()
     {
         // dd('hello');
@@ -29,15 +38,26 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
+        // dd('fdrf');
+        try{
+          
+            $this->categoryService->saveCategory($request);
+            $redirect=redirect()->route("categories.index");
+            return $redirect->with(['success'=>"category added",]); 
+        }
+        catch(exception $e){
+            $redirect=redirect()->route("categories.index");
+            return $redirect->with(['errror',"something went wrong",]);
+        }
+        // $request->validate([
+        //     'name' => 'required',
            
-        ]);
-        Category::create($request->post());
+        // ]);
+        // Category::create($request->post());
 
-        return redirect()->route('categories.index');
+        // return redirect()->route('categories.index');
     }
 
     /**

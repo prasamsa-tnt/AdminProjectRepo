@@ -17,13 +17,25 @@ class DatabaseSeeder extends Seeder
     	foreach (range(1,50) as $index) {
             DB::table('blogs')->insert([
                 'name' => $faker->name,
-                'author_id' =>4,
-                'category_id' =>2,
+                'author_id' =>1,
+                'category_id' =>1,
                 // 'phone' => $faker->phoneNumber,
             ]);
         }
-        $this->call(AdminSeeder::class);
         
+        $this->call([
+            StudentSeeder::class,
+            
+            
+        ]);
+        // $this->call([
+        //     CategorySeeder::class,
+            
+        //     SubcategorySeeder::class,
+
+        //     AdminSeeder::class
+        // ]);
+
         // \App\Models\Post::factory(50)->create();
     }
         // \App\Models\User::factory(10)->create();

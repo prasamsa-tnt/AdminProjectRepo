@@ -3,12 +3,14 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\BlogController;
+// use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EmployeeController;
 
 use App\Http\Controllers\AuthController;
 use App\Models\User;
 use App\Model\Blog;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\BlogController;
 
 use App\Http\Controllers\UserControllerPassport;
 
@@ -29,7 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 });
 
-Route::resource('blog',BlogController::class);
+// Route::resource('blog',ApiBlogController::class);
 Route::get('employees',[EmployeeController::class,'index']);
 Route::post('employees',[EmployeeController::class,'store']);
 Route::get('employees/{employee}',[EmployeeController::class,'show']);
@@ -53,9 +55,26 @@ Route::post('/login',[UserControllerPassport::class,'userlogin']);
 Route::post('/register',[UserControllerPassport::class,'userregister']);
 
 Route::group(['middleware'=>['auth:api']],function () {
+     
+      // Route::get('blogs',[BlogController::class,'index']);
+      Route::post('blogs',[BlogController::class,'store']);
+      // Route::get('blogs/{blog}',[BlogController::class,'show']);
+
    Route::get('/details',[UserControllerPassport::class,'details']);
    });
 
 // Route::middleware('auth:api')->group(function () {
 //    Route::resource('posts', PostController::class);
 // });
+
+// Route::get('blogs/index',[BlogController::class,'index']);
+
+Route::get('categories',[CategoryController::class,'index']);
+Route::post('categories',[CategoryController::class,'store']);
+Route::get('categories/{category}',[CategoryController::class,'show']);
+
+
+Route::get('blogs',[BlogController::class,'index']);
+// Route::post('blogs',[BlogController::class,'store']);
+Route::get('blogs/{blog}',[BlogController::class,'show']);
+
